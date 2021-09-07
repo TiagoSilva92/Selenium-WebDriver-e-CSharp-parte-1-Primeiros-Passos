@@ -8,34 +8,44 @@ using Xunit;
 
 namespace Alura.LeilaoOnline.Selenium
 {
-    public class AoNavegarParaHome
+    public class AoNavegarParaHome : IDisposable
     {
+        private FirefoxDriver driver;
+
+        //Setup
+        public AoNavegarParaHome()
+        {
+            driver = new FirefoxDriver(TesteHelpers.PastaDoExecutavel);
+        }
+
+        //TearDown
+        public void Dispose()
+        {
+            driver.Quit();
+        }
+
         [Fact]
         public void DadoFirefoxAbertoDeveMostrarLeiloesNoTitulo()
         {
             //Arrange
-            IWebDriver driver = new FirefoxDriver(TesteHelpers.PastaDoExecutavel);
 
-            //act
+            //Act
             driver.Navigate().GoToUrl("http://localhost:5000");
 
             //Assert
             Assert.Contains("Leilões", driver.Title);
-
         }
 
         [Fact]
         public void DadoFirefoxAbertoDeveMostrarProximosLeiloesNaPagina()
         {
             //Arrange
-            IWebDriver driver = new FirefoxDriver(TesteHelpers.PastaDoExecutavel);
 
             //Act
             driver.Navigate().GoToUrl("http://localhost:5000");
 
             //Assert
             Assert.Contains("Próximos Leilões", driver.PageSource);
-
         }
     }
 }
