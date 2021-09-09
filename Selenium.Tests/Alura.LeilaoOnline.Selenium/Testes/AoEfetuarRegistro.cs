@@ -84,5 +84,44 @@ namespace Alura.LeilaoOnline.Selenium.Testes
             //Assert -  devo ser direcionado para uma páginma de agradecimento
             Assert.Contains("section-registro", driver.PageSource);
         }
+
+
+        [Fact]
+        public void DadoNomeEmBrancoDeveMostrarMensagemDeErro()
+        {
+            //Arranje
+            driver.Navigate().GoToUrl("http://localhost:5000");
+
+            //Botão de registo
+            var botaoRegistro = driver.FindElement(By.Id("btnRegistro"));
+
+            //Act - efetuo o registro
+            botaoRegistro.Click();
+
+            //Assert - span.msg-erro[data-valmsg-for="Nome"]
+            IWebElement elemento = driver.FindElement(By.CssSelector("span.msg-erro[data-valmsg-for=Nome]"));
+            Assert.Equal("The Nome field is required.", elemento.Text);
+        }
+
+        [Fact]
+        public void DadoEmailInvalidoDeveMostrarMensagemDeErro()
+        {
+            //Arranje
+            driver.Navigate().GoToUrl("http://localhost:5000");
+
+            //email
+            var inputEmail = driver.FindElement(By.Id("Email"));
+            inputEmail.SendKeys("tiago");
+            //Botão de registo
+            var botaoRegistro = driver.FindElement(By.Id("btnRegistro"));
+
+            //Act - efetuo o registro
+            botaoRegistro.Click();
+
+            //Assert - span.msg-erro[data-valmsg-for="Nome"]
+            IWebElement elemento = driver.FindElement(By.CssSelector("span.msg-erro[data-valmsg-for=Email]"));
+            Assert.Equal("Please enter a valid email address.", elemento.Text);
+                          
+        }
     }
 }
