@@ -47,8 +47,16 @@ namespace Alura.LeilaoOnline.Selenium.Testes
             Assert.Contains("Obrigado", driver.PageSource);
         }
 
-        [Fact]
-        public void DadoInfoInvalidasDeveContinuarnaHome()
+        [Theory]
+        [InlineData("", "tiagosilva360@hotmail.com", "123" ,"123")]
+        [InlineData("Tiago Silva", "tiago", "123", "123")]
+        [InlineData("Tiago", "tiagosilva360@hotmail.com", "123", "456")]
+        [InlineData("Tiago", "tiagosilva360@hotmail.com", "123", "")]
+        public void DadoInfoInvalidasDeveContinuarNaHome(
+            string nome,
+            string email,
+            string senha, 
+            string confirmaSenha)
         {
             //Arranje - dado firefox aberto, pagina inicial do sistema de leilões
             // dados de registro válidos informados 
@@ -65,16 +73,16 @@ namespace Alura.LeilaoOnline.Selenium.Testes
             //botão de registo
             var botaoRegistro = driver.FindElement(By.Id("btnRegistro"));
 
-            inputNome.SendKeys("Tiago da Silva Melo");
-            inputEmail.SendKeys("tiagodasilva360@hotmail.com");
-            inputSenha.SendKeys("123");
-            inputConfirmaSenha.SendKeys("123");
+            inputNome.SendKeys(nome);
+            inputEmail.SendKeys(email);
+            inputSenha.SendKeys(senha);
+            inputConfirmaSenha.SendKeys(confirmaSenha);
 
             //Act - efetuo o registro
             botaoRegistro.Click();
 
             //Assert -  devo ser direcionado para uma páginma de agradecimento
-            Assert.Contains("Obrigado", driver.PageSource);
+            Assert.Contains("section-registro", driver.PageSource);
         }
     }
 }
