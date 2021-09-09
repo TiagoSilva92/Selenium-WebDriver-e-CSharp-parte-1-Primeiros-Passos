@@ -1,3 +1,4 @@
+using Alura.LeilaoOnline.Selenium.Fixtures;
 using Alura.LeilaoOnline.Selenium.Helpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -6,22 +7,17 @@ using System.IO;
 using System.Reflection;
 using Xunit;
 
-namespace Alura.LeilaoOnline.Selenium
+namespace Alura.LeilaoOnline.Selenium.Testes
 {
-    public class AoNavegarParaHome : IDisposable
+    [Collection("Firefox Driver")]
+    public class AoNavegarParaHome
     {
-        private FirefoxDriver driver;
+        private IWebDriver driver;
 
         //Setup
-        public AoNavegarParaHome()
+        public AoNavegarParaHome(TesteFixture fixture)
         {
-            driver = new FirefoxDriver(TesteHelpers.PastaDoExecutavel);
-        }
-
-        //TearDown
-        public void Dispose()
-        {
-            driver.Quit();
+            driver = fixture.Driver;
         }
 
         [Fact]
